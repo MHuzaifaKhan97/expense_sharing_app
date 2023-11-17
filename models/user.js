@@ -14,6 +14,10 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    billItems: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Bill',
+    }],
    
 })
 

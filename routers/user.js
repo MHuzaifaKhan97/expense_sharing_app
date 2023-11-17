@@ -34,14 +34,27 @@ router.get("/", async (req, res) => {
 //  Get single user
  router.get("/:id", async (req, res) => {
 
-    const user = await User.findById(req.params.id).select("-passwordHash");
+    const user = await User.findById(req.params.id).populate("billItems")
     if(!user){
      res.status(500).json({
          success: false,
          message:"User not found"
      });
     }
-    res.send(user);
+    let totalCredit = 0;
+    let totalDebit = 0;
+    user.billItems.forEach((bill) => {
+        if(bill.type == "D"){
+            totalDebit += bill.amount;
+        }else{
+            totalCredit += bill.amount;
+        }
+    })
+    res.send({
+        "user":user,
+        "totalDebit": totalDebit,
+        "totalCredit":totalCredit,
+    })
  })
 
  // Register User

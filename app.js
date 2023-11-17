@@ -22,10 +22,12 @@ const connectionString = process.env.CONNECTION_STRING;
 
 // Import routers
 const userRouter = require('./routers/user');
+const billRouter = require('./routers/bill');
 
 
 //Routes
 app.use(`${api}/user`, userRouter)
+app.use(`${api}/bill`, billRouter)
 
 // Connection with MongoDB
 mongoose.connect(connectionString, {
